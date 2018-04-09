@@ -8,7 +8,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.util.Duration;
-
 import java.lang.management.ManagementFactory;
 
 public class Controller {
@@ -16,15 +15,16 @@ public class Controller {
     private Label cpu_usage = new Label();
     @FXML
     private ToggleButton on_off_btn;
+    public Resources res_object = new Resources();
 
-    public void generateRandom(){
+    public void refreshData(){
         Timeline timeline = new Timeline(new KeyFrame(
                 Duration.millis(1000),
                 ae -> cpu_usage.setText(getInfo())));
                 System.out.println(getInfo());
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
-        //cpu_usage.setText(getInfo());
+
     }
 
     private String getInfo(){

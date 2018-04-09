@@ -21,9 +21,6 @@ public class Main extends Application {
         Scene scene = new Scene(root, 500, 300);
         primaryStage.setScene(scene);
         primaryStage.show();
-        Controller start_object = new Controller();
-
-        start_object.generateRandom();
     }
 
 

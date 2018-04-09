@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SeparatorMenuItem?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.effect.Bloom?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+<VBox prefHeight="521.0" prefWidth="756.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
@@ -56,15 +59,30 @@
     </MenuBar>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c2d0dd" height="200.0" layoutX="320.0" layoutY="67.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
-            <Button fx:id="button1" layoutX="201.0" layoutY="207.0" mnemonicParsing="false" onAction="#generateRandom" text="Start" />
-            <TextField id="ram_memory" fx:id="memory" layoutX="334.0" layoutY="120.0" />
-            <Label fx:id="cpu_usage" layoutX="22.0" layoutY="110.0" prefHeight="45.0" prefWidth="113.0" textAlignment="CENTER">
-               <font>
-                  <Font size="20.0" />
-               </font></Label>
-            <Label layoutX="32.0" layoutY="74.0" text="CPU usage" />
-            <ToggleButton fx:id="on_off_btn" layoutX="7.0" layoutY="14.0" mnemonicParsing="false" onAction="#generateRandom" text="Turn on" />
+            <Button fx:id="button1" layoutX="80.0" layoutY="14.0" mnemonicParsing="false" onAction="#refreshData" text="Start" />
+            <ToggleButton fx:id="on_off_btn" layoutX="7.0" layoutY="14.0" mnemonicParsing="false" onAction="#refreshData" text="Turn on" />
+            <LineChart layoutX="286.0" layoutY="27.0" prefHeight="45.0" prefWidth="217.0">
+              <xAxis>
+                <CategoryAxis side="BOTTOM" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis side="LEFT" />
+              </yAxis>
+            </LineChart>
+            <VBox fx:id="vbox_main" layoutX="13.0" layoutY="56.0" prefHeight="101.0" prefWidth="163.0">
+               <children>
+                  <Label text="CPU usage" />
+                  <Label fx:id="cpu_usage" prefHeight="45.0" prefWidth="113.0" text="INIT" textAlignment="CENTER">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+               </children>
+               <effect>
+                  <Bloom />
+               </effect>
+            </VBox>
+            <PieChart layoutX="14.0" layoutY="217.0" prefHeight="183.0" prefWidth="228.0" />
       </children>
     </AnchorPane>
   </children>
