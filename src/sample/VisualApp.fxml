@@ -17,73 +17,79 @@
 <?import javafx.scene.text.Font?>
 
 <VBox prefHeight="521.0" prefWidth="756.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
-  <children>
-    <MenuBar VBox.vgrow="NEVER">
-      <menus>
-        <Menu mnemonicParsing="false" text="File">
-          <items>
-            <MenuItem mnemonicParsing="false" text="New" />
-            <MenuItem mnemonicParsing="false" text="Open…" />
-            <Menu mnemonicParsing="false" text="Open Recent" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Close" />
-            <MenuItem mnemonicParsing="false" text="Save" />
-            <MenuItem mnemonicParsing="false" text="Save As…" />
-            <MenuItem mnemonicParsing="false" text="Revert" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Preferences…" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Quit" />
-          </items>
-        </Menu>
-        <Menu mnemonicParsing="false" text="Edit">
-          <items>
-            <MenuItem mnemonicParsing="false" text="Undo" />
-            <MenuItem mnemonicParsing="false" text="Redo" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Cut" />
-            <MenuItem mnemonicParsing="false" text="Copy" />
-            <MenuItem mnemonicParsing="false" text="Paste" />
-            <MenuItem mnemonicParsing="false" text="Delete" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Select All" />
-            <MenuItem mnemonicParsing="false" text="Unselect All" />
-          </items>
-        </Menu>
-        <Menu mnemonicParsing="false" text="Help">
-          <items>
-            <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
-          </items>
-        </Menu>
-      </menus>
-    </MenuBar>
-    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
-      <children>
-            <Button fx:id="button1" layoutX="80.0" layoutY="14.0" mnemonicParsing="false" onAction="#refreshData" text="Start" />
-            <ToggleButton fx:id="on_off_btn" layoutX="7.0" layoutY="14.0" mnemonicParsing="false" onAction="#refreshData" text="Turn on" />
-            <LineChart layoutX="286.0" layoutY="27.0" prefHeight="45.0" prefWidth="217.0">
-              <xAxis>
-                <CategoryAxis side="BOTTOM" />
-              </xAxis>
-              <yAxis>
-                <NumberAxis side="LEFT" />
-              </yAxis>
-            </LineChart>
-            <VBox fx:id="vbox_main" layoutX="13.0" layoutY="56.0" prefHeight="101.0" prefWidth="163.0">
-               <children>
-                  <Label text="CPU usage" />
-                  <Label fx:id="cpu_usage" prefHeight="45.0" prefWidth="113.0" text="INIT" textAlignment="CENTER">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-               </children>
-               <effect>
-                  <Bloom />
-               </effect>
-            </VBox>
-            <PieChart layoutX="14.0" layoutY="217.0" prefHeight="183.0" prefWidth="228.0" />
-      </children>
-    </AnchorPane>
-  </children>
+    <children>
+        <MenuBar VBox.vgrow="NEVER">
+            <menus>
+                <Menu mnemonicParsing="false" text="File">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="New" />
+                        <MenuItem mnemonicParsing="false" text="Open…" />
+                        <Menu mnemonicParsing="false" text="Open Recent" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="Close" />
+                        <MenuItem mnemonicParsing="false" text="Save" />
+                        <MenuItem mnemonicParsing="false" text="Save As…" />
+                        <MenuItem mnemonicParsing="false" text="Revert" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="Preferences…" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="Quit" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Undo" />
+                        <MenuItem mnemonicParsing="false" text="Redo" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="Cut" />
+                        <MenuItem mnemonicParsing="false" text="Copy" />
+                        <MenuItem mnemonicParsing="false" text="Paste" />
+                        <MenuItem mnemonicParsing="false" text="Delete" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="Select All" />
+                        <MenuItem mnemonicParsing="false" text="Unselect All" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+        <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+            <children>
+                <Button fx:id="button1" layoutX="80.0" layoutY="14.0" mnemonicParsing="false" onAction="#refreshData" text="Start" />
+                <ToggleButton fx:id="on_off_btn" layoutX="7.0" layoutY="14.0" mnemonicParsing="false" onAction="#refreshData" text="Turn on" />
+                <LineChart fx:id="usageChart" layoutX="286.0" layoutY="27.0" prefHeight="45.0" prefWidth="217.0">
+                    <xAxis>
+                        <CategoryAxis side="BOTTOM" />
+                    </xAxis>
+                    <yAxis>
+                        <NumberAxis side="LEFT" />
+                    </yAxis>
+                </LineChart>
+                <VBox fx:id="vbox_main" layoutX="13.0" layoutY="56.0" prefHeight="399.0" prefWidth="185.0">
+                    <children>
+                        <Label text="CPU usage" />
+                        <Label fx:id="cpu_usage" prefHeight="38.0" prefWidth="42.0" text="INIT" textAlignment="CENTER">
+                            <font>
+                                <Font size="15.0" />
+                            </font>
+                        </Label>
+                        <Label text="RAM" />
+                        <Label fx:id="ram_usage" maxWidth="-Infinity" prefHeight="38.0" prefWidth="42.0" text="INIT" textAlignment="CENTER">
+                            <font>
+                                <Font size="15.0" />
+                            </font>
+                        </Label>
+                    </children>
+                    <effect>
+                        <Bloom />
+                    </effect>
+                </VBox>
+                <PieChart layoutX="14.0" layoutY="217.0" prefHeight="183.0" prefWidth="228.0" />
+            </children>
+        </AnchorPane>
+    </children>
 </VBox>
