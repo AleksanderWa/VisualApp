@@ -3,14 +3,20 @@ package sample;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.util.Duration;
 
-public class Controller {
+
+public class Controller extends Task<Integer> {
     @FXML
     private Label cpu_usage = new Label();
 
@@ -18,34 +24,49 @@ public class Controller {
     private Label ram_usage = new Label();
 
     @FXML
-    private ToggleButton on_off_btn;
+    private ToggleButton on_off_btn = new ToggleButton();
 
     @FXML
-    private LineChart<String,Number> usageChart;
+    private LineChart<Number,Number> usageChart;
 
+    private static Integer counter = 0;
     private static Resources res_object = new Resources();
+    private XYChart.Series<Number,Number> seriesCpu = new XYChart.Series<>();
+    private XYChart.Series<Number,Number> seriesRam = new XYChart.Series<>();
+    private boolean startState = false;
 
-    public void refreshData() {
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), ev -> {
+
+    public void refreshData(){
+        usageChart.getData().add(seriesCpu);
+        usageChart.getData().add(seriesRam);
+        startState = true;
+        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(200), ev -> {
+            if (startState){
+               on_off_btn.setDisable(true);
+            }
             res_object.getInfo();
-            cpu_usage.setText(convertToString(res_object.getCpuLoad()));
-            ram_usage.setText(convertToString(res_object.getRamLoad()) + " / " + convertToString(res_object.getMaxRam()));
-            XYChart.Series<String,Number> series = new XYChart.Series<String,Number>();
-            series.getData().add(new XYChart.Data<String, Number>("CPU",res_object.getCpuLoad()*100));
-            usageChart.getData().add(series);
-
+            cpu_usage.setText(res_object.convertToString(res_object.getCpuLoad()));
+            ram_usage.setText(res_object.convertToString(res_object.getRamLoad()) + " / " + res_object.convertToString(res_object.getMaxRam()));
+            chartDraw(res_object);
         }));
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
     }
 
-    private String convertToString(double usage) {
-        double temp = usage * 100;
-        return String.format("%1.2f", temp);
+    private void chartDraw(Resources res_object){
+        seriesCpu.getData().add(new XYChart.Data<>(counter,res_object.getCpuLoad()*100));
+        seriesRam.getData().add(new XYChart.Data<>(counter,res_object.getRamPercent()));
+        counter++;
+
     }
 
-    private String convertToString(long usage) {
-        Long temp = usage / 1048576;
-        return temp.toString();
+    public ToggleButton getOn_off_btn() {
+        return on_off_btn;
+    }
+
+    @Override
+    protected Integer call() throws Exception {
+
+        return null;
     }
 }
