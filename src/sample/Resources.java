@@ -1,13 +1,17 @@
 package sample;
 
-        import java.lang.management.ManagementFactory;
+import java.io.File;
+import java.lang.management.ManagementFactory;
 
-public class Resources {
+
+public class Resources implements Runnable {
     private com.sun.management.OperatingSystemMXBean os;
     private static Long maxRam;
     private Long ramLoad;
     private double cpuLoad;
     private static Resources instance = null;
+    private long freeDisk;
+
 
     Resources() {
         if (instance != null) {
@@ -19,22 +23,25 @@ public class Resources {
     }
 
     void getInfo() {
+
+        System.out.println("disk " + freeDisk);
         os = (com.sun.management.OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
         cpuLoad = os.getSystemCpuLoad();
         ramLoad = maxRam - os.getFreePhysicalMemorySize();
+        readIO();
     }
 
     double getRamPercent() {
         return (ramLoad.doubleValue() / maxRam.doubleValue()) * 100;
     }
 
-    String convertToString(double usage) {
-        double temp = usage * 100;
+    String convertToString(double usage, int constValue) {
+        double temp = usage * constValue;
         return String.format("%1.2f", temp);
     }
 
-    String convertToString(long usage) {
-        Long temp = usage / 1048576;
+    String convertToString(long usage, int devided) {
+        Long temp = usage / devided;
         return temp.toString();
     }
 
@@ -46,8 +53,27 @@ public class Resources {
         return ramLoad;
     }
 
+    long getFreeDisk() {
+        return freeDisk;
+    }
+
     double getCpuLoad() {
         return cpuLoad;
     }
 
+    @Override
+    public void run() {
+        System.out.println("Thread from runnable " + Thread.currentThread().getId());
+    }
+
+    private void readIO() {
+        File root = new File("C:\\");
+        try {
+            freeDisk = root.getUsableSpace();
+           // root.delete();
+        } catch (Exception e) {
+            System.out.println("catched exception " + e);
+        }
+    }
 }
+
