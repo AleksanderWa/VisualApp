@@ -89,9 +89,13 @@ public class Controller extends TreeMap implements Initializable {
     };
 
     private void chartDraw(Resources res_object) {
-        seriesCpu.getData().add(new XYChart.Data<>(counter, res_object.getCpuLoad() * 100));
-        seriesRam.getData().add(new XYChart.Data<>(counter, res_object.getRamPercent()));
-        counter++;
+        try {
+            seriesCpu.getData().add(new XYChart.Data<>(counter, res_object.getCpuLoad() * 100));
+            seriesRam.getData().add(new XYChart.Data<>(counter, res_object.getRamPercent()));
+            counter++;
+        }catch(Exception e){
+            System.exit(20);
+        }
     }
 
     public void startStopBtn() {

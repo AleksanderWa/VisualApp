@@ -34,11 +34,13 @@ public class Resources implements Runnable {
     }
 
     String convertToString(double usage, int constValue) {
+
         double temp = usage * constValue;
         return String.format("%1.2f", temp);
     }
 
     String convertToString(long usage, int devided) {
+        if(usage < 0){}
         Long temp = usage / devided;
         return temp.toString();
     }
