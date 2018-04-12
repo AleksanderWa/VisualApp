@@ -8,10 +8,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.util.Duration;
-
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -31,29 +35,41 @@ public class Controller extends TreeMap implements Initializable {
     @FXML
     private LineChart<Number, Number> usageChart;
 
+    @FXML
+    private ProgressBar cpu_indicator = new ProgressBar();
+
+    @FXML
+    private ProgressBar ram_indicator = new ProgressBar();
+
     private static final int ramCalc = 1048576;
     private static final int cpuCalc = 100;
     private static Integer counter = 0;
-    private static Resources res_object = new Resources();
-    private XYChart.Series<Number, Number> seriesCpu = new XYChart.Series<>();
-    private XYChart.Series<Number, Number> seriesRam = new XYChart.Series<>();
+    private static Resources res_object;
+    private XYChart.Series<Number, Number> seriesCpu;
+    private XYChart.Series<Number, Number> seriesRam;
     private boolean startState = false;
     private Timeline timeline;
-    private Map<Calendar,Resources> sortedResuources = new TreeMap<>();
-    private Calendar currentDate;
+    private Map<String,Resources> sortedResuources;
+    private static DateFormat dateFormat;
+    private static Date date;
+    @FXML
+    private VBox vbox_main = new VBox();
     private void refreshData() {
 
-        timeline = new Timeline(new KeyFrame(Duration.millis(500), ev -> {
+        timeline = new Timeline(new KeyFrame(Duration.millis(350), ev -> {
             if (!startState) {
                 timeline.stop();
             }
 
             res_object.getInfo();
-            cpu_usage.setText(res_object.convertToString(res_object.getCpuLoad(),cpuCalc));
+            cpu_usage.setText(res_object.convertToString(res_object.getCpuLoad(),cpuCalc) + " %");
             ram_usage.setText(res_object.convertToString(res_object.getRamLoad(),ramCalc) + " / " + res_object.convertToString(res_object.getMaxRam(),ramCalc));
             disk_space.setText(res_object.convertToString(res_object.getFreeDisk(),ramCalc) + " MB");
             chartDraw(res_object);
-            currentDate = Calendar.getInstance();
+            date = new Date();
+            cpu_indicator.setProgress(res_object.getCpuLoad());
+            ram_indicator.setProgress(res_object.getRamLoadDouble() / res_object.getMaxRamDouble());
+            sortedResuources.put(dateFormat.format(date),res_object);
             //Thread worker = new Thread(runnable);
             //worker.start();
         }));
@@ -89,10 +105,12 @@ public class Controller extends TreeMap implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        res_object = new Resources();
+        seriesRam = new XYChart.Series<>();
+        seriesCpu = new XYChart.Series<>();
+        sortedResuources = new TreeMap<>();
+        dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         usageChart.getData().add(seriesCpu);
         usageChart.getData().add(seriesRam);
     }
-
-
-
 }

@@ -23,8 +23,6 @@ public class Resources implements Runnable {
     }
 
     void getInfo() {
-
-        System.out.println("disk " + freeDisk);
         os = (com.sun.management.OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
         cpuLoad = os.getSystemCpuLoad();
         ramLoad = maxRam - os.getFreePhysicalMemorySize();
@@ -61,6 +59,8 @@ public class Resources implements Runnable {
         return cpuLoad;
     }
 
+    double getRamLoadDouble(){return ramLoad.doubleValue();}
+    double getMaxRamDouble(){return maxRam.doubleValue();}
     @Override
     public void run() {
         System.out.println("Thread from runnable " + Thread.currentThread().getId());
