@@ -52,6 +52,7 @@ public class Controller extends TreeMap implements Initializable {
     private Map<String,Resources> sortedResuources;
     private static DateFormat dateFormat;
     private static Date date;
+    private Thread thread;
     @FXML
     private VBox vbox_main = new VBox();
     private void refreshData() {
@@ -61,7 +62,17 @@ public class Controller extends TreeMap implements Initializable {
                 timeline.stop();
             }
 
-            res_object.getInfo();
+            Runnable myRunnable = new Runnable(){
+
+                public void run(){
+                    res_object.getInfo();
+                    System.out.println("finishing runnable");
+                }
+            };
+
+            Thread thread = new Thread(myRunnable);
+            thread.start();
+            System.out.println("setting text");
             cpu_usage.setText(res_object.convertToString(res_object.getCpuLoad(),cpuCalc) + " %");
             ram_usage.setText(res_object.convertToString(res_object.getRamLoad(),ramCalc) + " / " + res_object.convertToString(res_object.getMaxRam(),ramCalc));
             disk_space.setText(res_object.convertToString(res_object.getFreeDisk(),ramCalc) + " MB");
@@ -69,7 +80,12 @@ public class Controller extends TreeMap implements Initializable {
             date = new Date();
             cpu_indicator.setProgress(res_object.getCpuLoad());
             ram_indicator.setProgress(res_object.getRamLoadDouble() / res_object.getMaxRamDouble());
+            thread = new Thread(new Resources());
             sortedResuources.put(dateFormat.format(date),res_object);
+            thread.start();
+
+            //System.out.println("Thread from runnable Controller class " + Thread.currentThread().getId());
+            System.out.println("Number of running threads: " + Thread.activeCount());
             //Thread worker = new Thread(runnable);
             //worker.start();
         }));
@@ -90,6 +106,7 @@ public class Controller extends TreeMap implements Initializable {
 
     private void chartDraw(Resources res_object) {
         try {
+
             seriesCpu.getData().add(new XYChart.Data<>(counter, res_object.getCpuLoad() * 100));
             seriesRam.getData().add(new XYChart.Data<>(counter, res_object.getRamPercent()));
             counter++;

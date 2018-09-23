@@ -22,11 +22,15 @@ public class Resources implements Runnable {
         maxRam = os.getTotalPhysicalMemorySize();
     }
 
-    void getInfo() {
-        os = (com.sun.management.OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
-        cpuLoad = os.getSystemCpuLoad();
-        ramLoad = maxRam - os.getFreePhysicalMemorySize();
-        readIO();
+
+
+    synchronized void getInfo() {
+
+                os = (com.sun.management.OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
+                cpuLoad = os.getSystemCpuLoad();
+                ramLoad = maxRam - os.getFreePhysicalMemorySize();
+                readIO();
+
     }
 
     double getRamPercent() {
